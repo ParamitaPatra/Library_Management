@@ -1,0 +1,39 @@
+{%extends "/shared/layout.html" %} {% block title %}Home{% endblock %} {% block
+head %} {{ super() }}
+<link rel="stylesheet" href="/static/home.css" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+{% endblock %} {% block content %}
+<div class="hero-container">
+  <div class="search-card animate-fade-in">
+    <div class="brand-header">
+      <div class="logo-icon">📚</div>
+      <h3>WELCOME TO THE LIBRARY</h3>
+      <p class="subtitle">
+        Discover worlds, history, and knowledge at your fingertips.
+      </p>
+    </div>
+
+    <form action="/books/search" method="GET" class="search-form">
+      <div class="search-input-wrapper">
+        <i class="search-icon">🔍</i>
+        <input
+          type="search"
+          autocomplete="off"
+          name="keyword"
+          autofocus
+          class="custom-search-input"
+          id="bookSearchInput"
+          placeholder="Search by title, author, or genre..."
+        />
+      </div>
+      <small class="search-hint"
+        >Available books will be shown to members.</small
+      >
+      <button type="submit" class="btn-search-submit">Explore Catalog</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

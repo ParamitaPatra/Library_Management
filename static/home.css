@@ -1,0 +1,139 @@
+/* Clean container settings */
+.hero-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(80vh - 70px); /* Accounts for the new header height */
+  padding: 20px;
+}
+
+/* Glassmorphism search card setup */
+.search-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 3.5rem 2.5rem;
+  border-radius: 24px;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.06),
+    0 5px 15px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 580px;
+  text-align: center;
+}
+
+/* Brand Header Typography */
+.brand-header {
+  margin-bottom: 2rem;
+}
+
+.logo-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.brand-header h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a202c;
+  letter-spacing: -0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.brand-header .subtitle {
+  color: #718096;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Custom Search Box UI */
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  font-size: 1.1rem;
+  color: #a0aec0;
+  pointer-events: none;
+}
+
+.custom-search-input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  font-size: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #2d3748;
+  transition: all 0.3s ease;
+}
+
+.custom-search-input:focus {
+  outline: none;
+  border-color: #4f46e5; /* Premium Indigo Accent */
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+.custom-search-input::placeholder {
+  color: #a0aec0;
+}
+
+.search-hint {
+  color: #718096;
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  text-align: left;
+  padding-left: 4px;
+}
+
+/* Premium Primary Call to Action Button */
+.btn-search-submit {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-search-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  background: linear-gradient(135deg, #4338ca 0%, #2563eb 100%);
+}
+
+.btn-search-submit:active {
+  transform: translateY(0);
+}
+
+/* Smooth Entrance Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

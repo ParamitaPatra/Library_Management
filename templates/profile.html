@@ -1,0 +1,376 @@
+{%extends "/shared/layout.html" %} {% block title %}Profile - {{user['name']}}
+{% endblock %} {% block head %} {{ super() }}
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  /* Profile Layout Overhaul */
+  .profile-container {
+    font-family: "Poppins", sans-serif;
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+  }
+  .user-sidebar {
+    background: #ffffff;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    height: fit-content;
+  }
+  .avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+  }
+  .avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #edf2f7;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+  .user-sidebar h4 {
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+  }
+  .user-sidebar .user-bio-text {
+    color: #718096;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .meta-timeline {
+    font-size: 0.85rem;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* Dashboard Main Panel Tabs */
+  .dashboard-main-pane {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    border: none;
+  }
+  .custom-nav-tabs {
+    border-bottom: 2px solid #edf2f7;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .custom-nav-tabs .nav-link {
+    border: none;
+    color: #718096;
+    font-weight: 600;
+    padding: 10px 5px;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  .custom-nav-tabs .nav-link.active {
+    color: #4f46e5;
+    background: transparent;
+  }
+  .custom-nav-tabs .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #4f46e5;
+    border-radius: 2px;
+  }
+
+  /* Grid Layout for Reserved/Borrowed Books */
+  .borrowed-books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .borrowed-book-card {
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  }
+  .borrowed-book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  }
+  .borrowed-cover {
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+  }
+  .borrowed-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .borrowed-card-body {
+    padding: 1rem;
+  }
+  .borrowed-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+  }
+  .borrowed-title a {
+    color: #1a202c;
+    text-decoration: none;
+  }
+  .borrowed-title a:hover {
+    color: #4f46e5;
+  }
+  .borrowed-author {
+    font-size: 0.85rem;
+    color: #718096;
+    margin: 0;
+  }
+
+  /* Form Field Refinement */
+  .custom-form-group {
+    margin-bottom: 1.25rem;
+  }
+  .custom-form-group label {
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  .custom-form-input {
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+  .custom-form-input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+    outline: none;
+  }
+  .btn-save-profile {
+    background: #4f46e5;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    transition: background 0.2s ease;
+    margin-top: 1rem;
+  }
+  .btn-save-profile:hover {
+    background: #4338ca;
+    color: #ffffff;
+  }
+</style>
+{% endblock %} {% block content %}
+<div class="container profile-container">
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <div class="alert alert-success shadow-sm mb-4 rounded-lg">
+    {% for message in messages %}
+    <span class="font-weight-medium">✨ {{ message }}</span>
+    {% endfor %}
+  </div>
+  {% endif %} {% endwith %}
+
+  <div class="row">
+    <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+      <div class="user-sidebar">
+        <div class="avatar-wrapper">
+          <img
+            src="/static/images/avatar.jpg"
+            alt="Profile Avatar"
+            id="photo"
+          />
+        </div>
+        <h4>{{user['name']}}</h4>
+        <p class="user-bio-text">
+          {% if user['bio'] %} "{{user['bio']}}" {% else %}
+          <span class="text-muted font-italic"
+            >No bio statement set up yet. Click profile settings to update your
+            biography details!</span
+          >
+          {% endif %}
+        </p>
+        <hr class="my-3" />
+        <div class="meta-timeline">
+          <i class="bi bi-calendar3"></i>
+          <span>Joined: {{ago(user['created_at'])}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-md-12">
+      <div class="card dashboard-main-pane">
+        <ul class="nav custom-nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="home-tab"
+              data-toggle="tab"
+              href="#home"
+              role="tab"
+              aria-controls="home"
+              aria-selected="true"
+              >Your Reserved Books</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="profile-tab"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+              >Account Settings</a
+            >
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="home"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+          >
+            {% if books %}
+            <div class="borrowed-books-grid">
+              {% for book in books %}
+              <div class="borrowed-book-card">
+                <div class="borrowed-cover">
+                  <img
+                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=400&q=80"
+                    alt="{{book['name']}}"
+                  />
+                  {% if book['availability'] < 1 %}
+                  <span
+                    class="badge badge-warning position-absolute"
+                    style="top: 8px; right: 8px; border-radius: 4px"
+                    >Assigned</span
+                  >
+                  {% endif %}
+                </div>
+                <div class="borrowed-card-body">
+                  <h5 class="borrowed-title">
+                    <a href="/books/{{book['id']}}">{{book['name']}}</a>
+                  </h5>
+                  <p class="borrowed-author">by {{book['author']}}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div
+              class="text-center py-5 border rounded-lg bg-light"
+              style="border-radius: 14px"
+            >
+              <i
+                class="bi bi-journal-bookmark text-muted mb-3"
+                style="font-size: 3.5rem; display: block"
+              ></i>
+              <h5 class="text-secondary font-weight-medium">
+                No Books Reserved
+              </h5>
+              <p class="text-muted small px-3">
+                Your rental catalog reading bin is empty. Head to the main
+                collection catalog page to add items to your active account log!
+              </p>
+            </div>
+            {% endif %}
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="profile"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+          >
+            <form method="POST" action="/user" class="px-1">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group custom-form-group">
+                    <label for="inputFirstName">Full Display Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter full name"
+                      name="name"
+                      value="{{user['name']}}"
+                      class="form-control custom-form-input"
+                      id="inputFirstName"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group custom-form-group">
+                    <label for="inputEmail3">Primary Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="name@domain.com"
+                      value="{{user['email']}}"
+                      name="email"
+                      class="form-control custom-form-input"
+                      id="inputEmail3"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group custom-form-group">
+                    <label for="password">Change Security Password</label>
+                    <input
+                      type="password"
+                      placeholder="Leave blank to keep unchanged"
+                      class="form-control custom-form-input"
+                      id="password"
+                      name="password"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group custom-form-group">
+                <label for="inpBio">Public Profile Biography</label>
+                <textarea
+                  class="form-control custom-form-input"
+                  rows="3"
+                  placeholder="Tell us a bit about your favorite reading interests or academic study subjects..."
+                  name="bio"
+                  id="inpBio"
+                >
+{{user['bio']}}</textarea
+                >
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-block btn-save-profile shadow-sm"
+              >
+                Save Changes & Update
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

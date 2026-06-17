@@ -1,0 +1,67 @@
+<html>
+<!-- What the page is called in the tab bar  -->
+<!-- We will add out stylsheet here later -->
+<head>
+	{%block head %}
+	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+	
+    <link rel="stylesheet" href="/static/style.css" />
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% endblock %}
+</head>
+<!-- Put some text on the page -->
+<body {{"class=home" if g and g.bg==1 else ""}}>
+	<div class="container-fluid" style="padding-top: 1.5rem;">
+    <div class="navbar-wrapper-card" style="
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 2px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 0.75rem 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        margin-bottom: 3rem;
+    ">
+        <nav class="navbar navbar-expand-lg justify-content-between p-0" style="font-family: 'Poppins', sans-serif;">
+            <a class="navbar-brand font-weight-bold text-dark m-0" href="/" style="font-size: 1.15rem; letter-spacing: -0.3px;">
+                📚 Athena Index
+            </a>
+
+            <ul class="nav align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link text-secondary font-weight-medium px-3" href="/" style="transition: color 0.2s ease;">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-secondary font-weight-medium px-3" href="/books" style="transition: color 0.2s ease;">Books</a>
+                </li>
+                {% if g and g.user %}
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary font-weight-medium px-3" href="/user/">Profile</a>
+                    </li>
+                    <li class="nav-item ml-2">
+                        <a class="nav-link btn btn-sm btn-outline-danger font-weight-medium px-3" href="/signout/" style="border-radius: 8px;">Signout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary font-weight-medium px-3" href="/signin">Signin</a>
+                    </li>
+                    <li class="nav-item ml-2">
+                        <a class="nav-link btn btn-sm btn-primary font-weight-medium px-3 text-white" href="/signup" style="border-radius: 8px; background: #4f46e5; border-color: #4f46e5;">Signup</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
